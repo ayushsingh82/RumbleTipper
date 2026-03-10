@@ -10,14 +10,14 @@ export function HeroSection() {
   return (
     <section className="relative w-full px-12 pt-6 pb-12 lg:px-24 lg:pt-10 lg:pb-16">
       <div className="flex flex-col items-center text-center">
-        {/* Top headline: DEPLOY. SCALE. -- Geist Pixel Grid */}
+        {/* Top headline */}
         <motion.h1
           initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
           animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           transition={{ duration: 0.7, ease }}
           className="font-pixel text-4xl sm:text-6xl lg:text-7xl xl:text-8xl tracking-tight text-foreground mb-2 select-none"
         >
-          DEPLOY. SCALE.
+          FIND. TIP. SUPPORT.
         </motion.h1>
 
         {/* Central Workflow Diagram */}
@@ -30,7 +30,7 @@ export function HeroSection() {
           <WorkflowDiagram />
         </motion.div>
 
-        {/* Bottom headline: ROUTE. -- Geist Pixel Grid */}
+        {/* Bottom headline */}
         <motion.h1
           initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
           animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
@@ -38,7 +38,7 @@ export function HeroSection() {
           className="font-pixel text-4xl sm:text-6xl lg:text-7xl xl:text-8xl tracking-tight text-foreground mb-4 select-none"
           aria-hidden="true"
         >
-          ROUTE.
+          RUMBLETIP.
         </motion.h1>
 
         {/* Sub-headline */}
@@ -48,7 +48,7 @@ export function HeroSection() {
           transition={{ duration: 0.5, delay: 0.45, ease }}
           className="text-xs lg:text-sm text-muted-foreground max-w-md mb-6 leading-relaxed font-mono"
         >
-          SYS.INT is the deterministic deployment layer between your models and your users. Sub-5ms inference. Global edge routing. Full operational control.
+          AI agent that finds high-potential Rumble creators early and tips them. Deposit USD₮, let the agent analyze engagement and send tips via Rumble’s native wallet — no extra friction.
         </motion.p>
 
         {/* CTA Button */}
@@ -70,7 +70,7 @@ export function HeroSection() {
             </motion.span>
           </span>
           <span className="px-5 py-2.5">
-            Request a Demo
+            Download extension
           </span>
         </motion.button>
       </div>

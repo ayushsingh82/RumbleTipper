@@ -65,15 +65,15 @@ export function MetricsCard() {
     <div className="flex flex-col h-full">
       <div className="flex items-center justify-between border-b-2 border-foreground px-4 py-2">
         <span className="text-[10px] tracking-widest text-muted-foreground uppercase">
-          inference.metrics
+          alpha.metrics
         </span>
         <span className="inline-block h-2 w-2 bg-[#ea580c]" />
       </div>
       <div className="flex-1 flex flex-col justify-center gap-6 p-6">
-        <ScrambleNumber target="4.2ms" label="Avg Latency" delay={500} />
-        <ScrambleNumber target="12.8K" label="Requests / sec" delay={800} />
-        <ScrambleNumber target="99.97%" label="Uptime" delay={1100} />
-        <ScrambleNumber target="147" label="Models Deployed" delay={1400} />
+        <ScrambleNumber target="87" label="Alpha Score (avg)" delay={500} />
+        <ScrambleNumber target="24" label="Creators Tracked" delay={800} />
+        <ScrambleNumber target="12" label="Tips Sent (24h)" delay={1100} />
+        <ScrambleNumber target="5" label="USD₮ per tip" delay={1400} />
       </div>
     </div>
   )

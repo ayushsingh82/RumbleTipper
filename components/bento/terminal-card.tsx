@@ -3,20 +3,17 @@
 import { useEffect, useState } from "react"
 
 const LOG_LINES = [
-  "> Initializing AI pipeline...",
-  "> Loading model weights: 2.4GB",
-  "> Connecting to data stream...",
-  "> Analyzing codebase...",
-  "> Running inference: batch_01",
-  "> Optimization pass: 1/3",
-  "> Optimization pass: 2/3",
-  "> Optimization pass: 3/3",
-  "> 98% Optimized",
-  "> Deploying to edge nodes...",
-  "> Status: OPERATIONAL",
-  "> Latency: 12ms p99",
-  "> Throughput: 14.2k req/s",
-  "> Memory: 847MB / 2048MB",
+  "> RumbleTip Agent v1.0",
+  "> Connecting to Rumble browse...",
+  "> Scanning video metrics...",
+  "> View velocity: +12% (spike)",
+  "> Engagement ratio: 0.04",
+  "> Alpha score: 87/100",
+  "> Creator likely to trend",
+  "> Decision: tip 5 USD₮",
+  "> WDK wallet: signing...",
+  "> Tx sent via Rumble tipping",
+  "> Status: TIPPED",
   "> --------- CYCLE COMPLETE ---------",
 ]
 
@@ -50,7 +47,7 @@ export function TerminalCard() {
         <span className="h-2 w-2 bg-foreground" />
         <span className="h-2 w-2 border border-foreground" />
         <span className="ml-auto text-[10px] tracking-widest text-muted-foreground uppercase">
-          terminal.sys
+          agent.alpha
         </span>
       </div>
       <div className="flex-1 bg-foreground p-4 overflow-hidden">

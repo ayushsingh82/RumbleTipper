@@ -3,8 +3,8 @@
 import { motion } from "framer-motion"
 import { useEffect, useState } from "react"
 
-const LEFT_LABELS = ["Train", "Package", "Version"]
-const RIGHT_LABELS = ["Route", "Deploy", "Observe"]
+const LEFT_LABELS = ["Deposit", "Analyze", "Score"]
+const RIGHT_LABELS = ["Decide", "Tip", "Support"]
 
 function PillLabel({
   label,
@@ -69,7 +69,7 @@ export function WorkflowDiagram() {
         viewBox="0 0 800 200"
         className="w-full h-auto"
         role="img"
-        aria-label="Workflow diagram showing connected deployment stages: Train, Package, Version, Route, Deploy, Observe"
+        aria-label="Workflow: Deposit, Analyze, Score, Decide, Tip, Support"
       >
         {/* Left lines from center to left labels */}
         {LEFT_LABELS.map((_, i) => {

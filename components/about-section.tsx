@@ -114,7 +114,7 @@ export function AboutSection() {
         className="flex items-center gap-4 mb-8"
       >
         <span className="text-[10px] tracking-[0.2em] uppercase text-muted-foreground font-mono">
-          {"// SECTION: ABOUT_SYS.INT"}
+          {"// SECTION: ABOUT_RUMBLETIP"}
         </span>
         <div className="flex-1 border-t border-border" />
         <BlinkDot />
@@ -136,7 +136,7 @@ export function AboutSection() {
           {/* Image label overlay */}
           <div className="absolute top-0 left-0 right-0 z-10 flex items-center justify-between px-4 py-2 bg-foreground/80 backdrop-blur-sm">
             <span className="text-[10px] tracking-[0.2em] uppercase text-background/60 font-mono">
-              RENDER: isometric_infrastructure.obj
+              RENDER: creator_alpha_flow.obj
             </span>
             <span className="text-[10px] tracking-[0.2em] uppercase text-[#ea580c] font-mono">
               LIVE
@@ -145,7 +145,7 @@ export function AboutSection() {
 
           <Image
             src="/images/about-isometric.jpg"
-            alt="Isometric view of AI infrastructure with server racks and data pipelines"
+            alt="RumbleTip flow: deposit, analyze, tip on Rumble"
             fill
             className="object-cover"
             sizes="(max-width: 1024px) 100vw, 50vw"
@@ -191,9 +191,9 @@ export function AboutSection() {
                 transition={{ duration: 0.5, delay: 0.2, ease }}
                 className="text-2xl lg:text-3xl font-mono font-bold tracking-tight uppercase text-balance"
               >
-                Infrastructure built for
+                Find rising creators.
                 <br />
-                <span className="text-[#ea580c]">raw intelligence</span>
+                <span className="text-[#ea580c]">Tip them early.</span>
               </motion.h2>
 
               <motion.div
@@ -204,15 +204,15 @@ export function AboutSection() {
                 className="flex flex-col gap-4"
               >
                 <p className="text-xs lg:text-sm font-mono text-muted-foreground leading-relaxed">
-                  We engineer the substrate layer that sits between your models
-                  and your users. No abstractions. No magic. Just deterministic
-                  routing, sub-5ms inference, and transparent operational control
-                  across every edge node in the network.
+                  RumbleTip is an AI agent that analyzes Rumble content, scores
+                  creator growth potential, and tips them via Rumble’s native
+                  USD₮ / XAU₮ / BTC wallet. Fans deposit once; the agent decides
+                  who to support and when — so rising creators get funded early.
                 </p>
                 <p className="text-xs lg:text-sm font-mono text-muted-foreground leading-relaxed">
-                  Founded by systems engineers who spent a decade building
-                  distributed compute at hyperscale. We believe AI infrastructure
-                  should be inspectable, auditable, and brutally fast.
+                  Built on WDK for the wallet and OpenClaw for reasoning. Use the
+                  browser extension to hover on Rumble and see Alpha scores, then
+                  tip with one click — no leaving the platform.
                 </p>
               </motion.div>
 

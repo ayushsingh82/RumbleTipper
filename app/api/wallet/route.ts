@@ -1,6 +1,38 @@
 import { NextResponse } from "next/server";
 
-const WEI_PER_ETH = 10n ** 18n;
+const WEI_PER_ETH = BigInt(10) ** BigInt(18);
+
+const CHAIN_NAMES: Record<number, string> = {
+  1: "Ethereum",
+  5: "Goerli",
+  11155111: "Sepolia",
+  137: "Polygon",
+  80001: "Mumbai",
+  42161: "Arbitrum One",
+  10: "Optimism",
+  56: "BNB Chain",
+  43114: "Avalanche C-Chain",
+  8453: "Base",
+  324: "zkSync Era",
+  204: "opBNB",
+};
+
+async function getChainIdAndName(rpcUrl: string): Promise<{ chainId: number; network: string }> {
+  try {
+    const res = await fetch(rpcUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ jsonrpc: "2.0", id: 1, method: "eth_chainId", params: [] }),
+    });
+    const data = await res.json();
+    const hex = data?.result;
+    const chainId = hex ? parseInt(hex, 16) : 0;
+    const network = CHAIN_NAMES[chainId] ?? `Chain ${chainId}`;
+    return { chainId, network };
+  } catch {
+    return { chainId: 0, network: "Unknown" };
+  }
+}
 
 // Use Node.js runtime so native addons (sodium-native) can load
 export const runtime = "nodejs";
@@ -18,16 +50,22 @@ export async function GET() {
     } = await import("@/lib/wdk-evm");
 
     const wdk = createWdkEvmFromEnv();
-    const [address, balanceWei] = await Promise.all([
+    const rpcUrl = process.env.WDK_RPC_URL ?? "https://eth.drpc.org";
+
+    const [address, balanceWei, chainInfo] = await Promise.all([
       getEvmAddress(wdk, 0),
       getEvmBalance(wdk, 0),
+      getChainIdAndName(rpcUrl),
     ]);
-    const balanceEth = Number((balanceWei * 10000n) / WEI_PER_ETH) / 10000;
+
+    const balanceEth = Number((balanceWei * BigInt(10000)) / WEI_PER_ETH) / 10000;
     return NextResponse.json({
       connected: true,
       address,
       balanceWei: balanceWei.toString(),
       balanceEth,
+      network: chainInfo.network,
+      chainId: chainInfo.chainId,
     });
   } catch (err) {
     let message = err instanceof Error ? err.message : "Wallet not configured";

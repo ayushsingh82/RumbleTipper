@@ -3,10 +3,10 @@
 import { useEffect, useState } from "react"
 
 const REGIONS = [
-  { name: "US-EAST-1", status: "ONLINE", latency: "3.8ms" },
-  { name: "EU-WEST-2", status: "ONLINE", latency: "4.1ms" },
-  { name: "AP-SOUTH-1", status: "ONLINE", latency: "4.6ms" },
-  { name: "US-WEST-2", status: "ONLINE", latency: "4.2ms" },
+  { name: "Rumble Browse", status: "ONLINE", latency: "0.2s" },
+  { name: "Rumble Watch", status: "ONLINE", latency: "0.1s" },
+  { name: "WDK Wallet", status: "ONLINE", latency: "0.5s" },
+  { name: "Tip Execution", status: "ONLINE", latency: "1.2s" },
 ]
 
 export function StatusCard() {
@@ -23,7 +23,7 @@ export function StatusCard() {
     <div className="flex flex-col h-full">
       <div className="flex items-center justify-between border-b-2 border-foreground px-4 py-2">
         <span className="text-[10px] tracking-widest text-muted-foreground uppercase">
-          edge_nodes.status
+          agent.status
         </span>
         <span className="text-[10px] tracking-widest text-muted-foreground">
           {`TICK:${String(tick).padStart(4, "0")}`}
@@ -58,7 +58,7 @@ export function StatusCard() {
         <div className="mt-auto pt-4">
           <div className="flex items-center justify-between mb-1">
             <span className="text-[9px] tracking-[0.15em] uppercase text-muted-foreground">
-              Global Throughput
+              Pool Allocated
             </span>
             <span className="text-[9px] font-mono text-foreground">87%</span>
           </div>

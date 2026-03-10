@@ -55,7 +55,7 @@ function StatusLine() {
   return (
     <div className="flex items-center gap-2 text-[10px] tracking-widest text-muted-foreground uppercase font-mono">
       <span className="h-1.5 w-1.5 bg-[#ea580c]" />
-      <span>live throughput: {throughput}k req/s</span>
+      <span>pool allocated: {throughput}%</span>
     </div>
   )
 }
@@ -81,56 +81,56 @@ interface Tier {
 const TIERS: Tier[] = [
   {
     id: "open-source",
-    name: "OPEN_SOURCE",
-    price: "0",
-    period: "/ forever",
+    name: "STARTER_POOL",
+    price: "50",
+    period: " USD₮",
     tag: null,
-    description: "Community-grade inference. Rate-limited. No SLA.",
+    description: "Small pool. Agent tips rising creators; you set a daily cap.",
     features: [
-      { text: "10K requests / month", included: true },
-      { text: "Community models", included: true },
-      { text: "Shared compute pool", included: true },
-      { text: "Single region", included: true },
-      { text: "Priority routing", included: false },
-      { text: "Dedicated support", included: false },
+      { text: "Up to 10 tips / day", included: true },
+      { text: "Max 5 USD₮ per tip", included: true },
+      { text: "Alpha score on hover", included: true },
+      { text: "Rumble native wallet", included: true },
+      { text: "Community pool", included: false },
+      { text: "Leaderboard access", included: false },
     ],
-    cta: "DEPLOY FREE",
+    cta: "DOWNLOAD EXTENSION",
     highlighted: false,
   },
   {
     id: "pro",
-    name: "PRO_TIER",
-    price: "249",
-    period: "/ month",
+    name: "ALPHA_POOL",
+    price: "250",
+    period: " USD₮",
     tag: "RECOMMENDED",
-    description: "Production-grade. Sub-5ms latency. 99.97% uptime SLA.",
+    description: "Larger pool. Higher limits. Agent + extension + leaderboard.",
     features: [
-      { text: "Unlimited requests", included: true },
-      { text: "All 147 foundation models", included: true },
-      { text: "Dedicated compute", included: true },
-      { text: "12-region edge deployment", included: true },
-      { text: "Priority routing", included: true },
-      { text: "Dedicated support", included: false },
+      { text: "Up to 50 tips / day", included: true },
+      { text: "Max 25 USD₮ per tip", included: true },
+      { text: "Creator prediction leaderboard", included: true },
+      { text: "Smart budget rules", included: true },
+      { text: "Community pool", included: true },
+      { text: "Early supporter NFT", included: false },
     ],
-    cta: "START BUILDING",
+    cta: "DOWNLOAD EXTENSION",
     highlighted: true,
   },
   {
     id: "enterprise",
-    name: "ENTERPRISE",
+    name: "COMMUNITY_POOL",
     price: "CUSTOM",
     period: "",
     tag: null,
-    description: "Air-gapped. On-prem. Full operational control.",
+    description: "Multiple backers, one pool. Agent allocates collectively.",
     features: [
-      { text: "Unlimited everything", included: true },
-      { text: "Custom model fine-tuning", included: true },
-      { text: "Dedicated cluster", included: true },
-      { text: "50+ edge regions", included: true },
-      { text: "Custom SLA", included: true },
-      { text: "24/7 dedicated engineering", included: true },
+      { text: "Shared tipping pool", included: true },
+      { text: "Custom limits per backer", included: true },
+      { text: "Agent accuracy metrics", included: true },
+      { text: "Rumble + WDK integration", included: true },
+      { text: "Custom rules", included: true },
+      { text: "Reputation / NFT", included: true },
     ],
-    cta: "CONTACT SALES",
+    cta: "CONTACT US",
     highlighted: false,
   },
 ]
@@ -282,7 +282,7 @@ export function PricingSection() {
         className="flex items-center gap-4 mb-8"
       >
         <span className="text-[10px] tracking-[0.2em] uppercase text-muted-foreground font-mono">
-          {"// SECTION: PRICING_TIERS"}
+          {"// SECTION: TIPPING_POOLS"}
         </span>
         <div className="flex-1 border-t border-border" />
         <BlinkDot />
@@ -301,10 +301,10 @@ export function PricingSection() {
       >
         <div className="flex flex-col gap-3">
           <h2 className="text-2xl lg:text-3xl font-mono font-bold tracking-tight uppercase text-foreground text-balance">
-            Select your compute tier
+            Choose your tipping pool
           </h2>
           <p className="text-xs lg:text-sm font-mono text-muted-foreground leading-relaxed max-w-md">
-            All tiers include zero-config deploys, built-in monitoring, and access to the SYS.INT inference API.
+            Deposit USD₮ into the agent wallet; set daily and per-creator limits. The agent uses WDK and Rumble’s native tipping.
           </p>
         </div>
         <StatusLine />
@@ -326,7 +326,7 @@ export function PricingSection() {
         className="flex items-center gap-3 mt-6"
       >
         <span className="text-[10px] tracking-[0.2em] uppercase text-muted-foreground font-mono">
-          {"* All plans billed annually. Cancel anytime. No vendor lock-in."}
+          {"* Deposit into agent wallet. Withdraw anytime. Tips go via Rumble."}
         </span>
         <div className="flex-1 border-t border-border" />
       </motion.div>

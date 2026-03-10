@@ -203,3 +203,5 @@ After democratizing finance with USD₮, we are now advancing toward **technolog
 | [Showcase](showcase.md) | Featured community projects and how to submit yours |
 | [Build with AI](build-with-ai.md) | MCP server, Markdown docs, project rules, example prompts |
 | [Node.js Quickstart](nodejs-quickstart.md) | Get started with WDK in Node.js/Bare in 3 minutes |
+| [Extension & backend plan](extension-and-backend-plan.md) | Browser extension + backend agent + WDK/Rumble integration |
+| [Workflow](workflow.md) | Implementation workflow, API design, and backend routes (creator alpha + tip) |

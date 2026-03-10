@@ -24,25 +24,9 @@ export function Navbar() {
           >
             <Cpu size={16} strokeWidth={1.5} />
             <span className="text-xs font-mono tracking-[0.15em] uppercase font-bold">
-              SYS.INT
+              RUMBLETIP
             </span>
           </motion.div>
-
-          {/* Center nav links */}
-          <div className="hidden md:flex items-center gap-8">
-            {["Platform", "Enterprise", "Resources", "Company"].map((link, i) => (
-              <motion.a
-                key={link}
-                href="#"
-                initial={{ opacity: 0, y: -8 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 + i * 0.06, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                className="text-xs font-mono tracking-widest uppercase text-muted-foreground hover:text-foreground transition-colors duration-200"
-              >
-                {link}
-              </motion.a>
-            ))}
-          </div>
 
           {/* Right side: Theme + Wallet (WDK EVM) */}
           <motion.div

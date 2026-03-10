@@ -15,6 +15,8 @@ import {
 type WalletState = {
   address: string
   balanceEth: number
+  network?: string
+  chainId?: number
 } | null
 
 function truncateAddress(address: string) {
@@ -38,6 +40,8 @@ export function WalletConnect() {
         setWallet({
           address: data.address,
           balanceEth: data.balanceEth ?? 0,
+          network: data.network,
+          chainId: data.chainId,
         })
         setError(null)
         setOpen(true)
@@ -94,12 +98,17 @@ export function WalletConnect() {
           <>
             <DropdownMenuLabel className="font-normal">
               <div className="flex flex-col gap-1">
-                <span className="text-xs text-muted-foreground">EVM (WDK)</span>
+                <span className="text-xs text-muted-foreground">
+                  {wallet.network ?? "EVM"} (WDK)
+                </span>
                 <span className="font-mono text-xs break-all">
                   {wallet.address}
                 </span>
                 <span className="text-xs text-muted-foreground mt-1">
                   {wallet.balanceEth.toFixed(4)} ETH
+                  {wallet.chainId != null && wallet.chainId > 0 && (
+                    <span className="ml-1 opacity-70">· Chain ID {wallet.chainId}</span>
+                  )}
                 </span>
               </div>
             </DropdownMenuLabel>
