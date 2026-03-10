@@ -198,6 +198,7 @@ After democratizing finance with USD₮, we are now advancing toward **technolog
 | Document | Description |
 |----------|-------------|
 | [Doc Topics Index](doc-topics.md) | Full docs structure: AI (MCP, OpenClaw, x402), SDK (modules, UI, starters), Tools (Indexer, Secret Manager, Price Rates) |
+| [Wallet docs & EVM reference](wallet-docs-evm.md) | SDK get started, module types, registration flow, **EVM wallet** usage, config, and networks |
 | [About WDK](about-wdk.md) | Wallet Development Kit overview, problems it solves, supported chains |
 | [Showcase](showcase.md) | Featured community projects and how to submit yours |
 | [Build with AI](build-with-ai.md) | MCP server, Markdown docs, project rules, example prompts |

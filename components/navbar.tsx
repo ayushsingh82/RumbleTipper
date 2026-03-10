@@ -3,6 +3,7 @@
 import { Cpu } from "lucide-react"
 import { motion } from "framer-motion"
 import { ThemeToggle } from "@/components/theme-toggle"
+import { WalletConnect } from "@/components/wallet-connect"
 
 export function Navbar() {
   return (
@@ -43,27 +44,15 @@ export function Navbar() {
             ))}
           </div>
 
-          {/* Right side: Login + CTA */}
+          {/* Right side: Theme + Wallet (WDK EVM) */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5, duration: 0.4 }}
-            className="flex items-center gap-4"
+            className="flex items-center gap-3"
           >
             <ThemeToggle />
-            <a
-              href="#"
-              className="hidden sm:block text-xs font-mono tracking-widest uppercase text-muted-foreground hover:text-foreground transition-colors duration-200"
-            >
-              Log In
-            </a>
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="bg-foreground text-background px-4 py-2 text-xs font-mono tracking-widest uppercase"
-            >
-              Request Demo
-            </motion.button>
+            <WalletConnect />
           </motion.div>
         </div>
       </nav>
