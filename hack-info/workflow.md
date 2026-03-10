@@ -36,17 +36,16 @@ Plan and implementation log for the extension + backend. See [extension-and-back
 ### File structure
 
 ```
-app/
-  api/
-    creator/
-      [id]/
-        alpha/
-          route.ts   ← GET score/metrics/suggestedTip (demo: mock or real scoring)
-        tip/
-          route.ts   ← POST tip (WDK transferEvmToken for USD₮)
+app/api/creator/[id]/alpha/route.ts   ← GET score (uses lib/creator-score.ts)
+app/api/creator/[id]/tip/route.ts    ← POST tip (WDK transferEvmToken); CORS + RUMBLETIP_MAX_PER_TIP_USD
 lib/
-  wdk-evm.ts         ← existing; use createWdkEvmFromEnv + transferEvmToken
-  creator-score.ts   ← optional: scoring logic (mock or real)
+  wdk-evm.ts         ← createWdkEvmFromEnv, transferEvmToken
+  creator-score.ts   ← getAlphaScore(id) — mock scoring
+  cors.ts            ← CORS headers for extension
+extension/
+  manifest.json      ← Chrome MV3; runs on rumble.com
+  content.js         ← hover → fetch alpha → overlay → Tip via Agent (amount + recipient)
+  content.css        ← overlay styles
 ```
 
 ### Implementation status

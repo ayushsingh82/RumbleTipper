@@ -205,3 +205,4 @@ After democratizing finance with USD₮, we are now advancing toward **technolog
 | [Node.js Quickstart](nodejs-quickstart.md) | Get started with WDK in Node.js/Bare in 3 minutes |
 | [Extension & backend plan](extension-and-backend-plan.md) | Browser extension + backend agent + WDK/Rumble integration |
 | [Workflow](workflow.md) | Implementation workflow, API design, and backend routes (creator alpha + tip) |
+| [What you need from Tether & Rumble](what-you-need-from-tether-rumble.md) | What’s covered by your docs vs what to get from Rumble |
