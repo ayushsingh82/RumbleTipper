@@ -14,16 +14,20 @@
   let currentTarget = null;
   let hideTimeout = null;
 
-  function getCreatorIdFromElement(el) {
+  function getReadInfoFromDOM(el) {
+    if (typeof RumbleTipDOM !== "undefined" && RumbleTipDOM.readCardInfo) {
+      return RumbleTipDOM.readCardInfo(el);
+    }
     const link = el.closest("a") || el.querySelector("a");
+    let creatorId = "demo-creator-" + Math.random().toString(36).slice(2, 9);
     if (link && link.href) {
       try {
         const path = new URL(link.href).pathname;
         const match = path.match(/\/videos?\/([^/]+)/) || path.match(/\/([^/]+)$/);
-        if (match) return match[1];
+        if (match) creatorId = match[1];
       } catch (_) {}
     }
-    return "demo-creator-" + Math.random().toString(36).slice(2, 9);
+    return { creatorId, title: "", creatorName: "", views: null, rawText: "" };
   }
 
   function createOverlay() {
@@ -33,9 +37,10 @@
     div.className = "rumbletip-overlay";
     div.innerHTML = `
       <div class="rumbletip-card">
-        <div class="rumbletip-loading">Loading Alpha score…</div>
+        <div class="rumbletip-loading">Loading…</div>
         <div class="rumbletip-content" style="display:none">
           <div class="rumbletip-title">RumbleTip</div>
+          <div class="rumbletip-read-from-page"></div>
           <div class="rumbletip-score"></div>
           <div class="rumbletip-metrics"></div>
           <div class="rumbletip-suggested"></div>
@@ -53,11 +58,15 @@
     return div;
   }
 
-  function showOverlay(x, y, creatorId) {
+  function showOverlay(x, y, hoveredEl) {
+    const readInfo = getReadInfoFromDOM(hoveredEl);
+    const creatorId = readInfo.creatorId;
+
     const overlay = createOverlay();
     const card = overlay.querySelector(".rumbletip-card");
     const loading = overlay.querySelector(".rumbletip-loading");
     const content = overlay.querySelector(".rumbletip-content");
+    const readEl = overlay.querySelector(".rumbletip-read-from-page");
     const scoreEl = overlay.querySelector(".rumbletip-score");
     const metricsEl = overlay.querySelector(".rumbletip-metrics");
     const suggestedEl = overlay.querySelector(".rumbletip-suggested");
@@ -72,6 +81,17 @@
     overlay.classList.add("rumbletip-visible");
     card.style.left = x + "px";
     card.style.top = y + "px";
+
+    var readLines = [];
+    if (readInfo.title) readLines.push("Video: " + readInfo.title);
+    if (readInfo.creatorName) readLines.push("Creator: " + readInfo.creatorName);
+    if (readInfo.views != null) readLines.push("Views: " + (readInfo.views >= 1000 ? (readInfo.views / 1000).toFixed(1) + "K" : readInfo.views));
+    if (readInfo.subscribers != null) readLines.push("Subs: " + (readInfo.subscribers >= 1000 ? (readInfo.subscribers / 1000).toFixed(1) + "K" : readInfo.subscribers));
+    if (readInfo.videoId) readLines.push("ID: " + readInfo.videoId);
+    readEl.textContent = readLines.length ? readLines.join(" · ") : "(read from page)";
+    readEl.style.color = "#a3a3a3";
+    readEl.style.fontSize = "11px";
+    readEl.style.marginBottom = "6px";
 
     fetch(`${API_BASE}/api/creator/${encodeURIComponent(creatorId)}/alpha`)
       .then((r) => r.json())
@@ -150,9 +170,8 @@
     const el = link || card || e.target;
     if (!el) return;
     currentTarget = el;
-    const creatorId = getCreatorIdFromElement(el);
     const rect = el.getBoundingClientRect();
-    showOverlay(rect.left, rect.bottom + 4, creatorId);
+    showOverlay(rect.left, rect.bottom + 4, el);
   }
 
   function onMouseLeave(e) {

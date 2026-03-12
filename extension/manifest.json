@@ -3,6 +3,17 @@
   "name": "RumbleTip",
   "version": "1.0.0",
   "description": "Tip Rumble creators via AI agent. Hover to see Alpha score and Tip via Agent.",
+  "icons": {
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
   "permissions": [],
   "host_permissions": [
     "https://rumble.com/*",
@@ -12,7 +23,7 @@
   "content_scripts": [
     {
       "matches": ["https://rumble.com/*"],
-      "js": ["content.js"],
+      "js": ["dom-reader.js", "content.js"],
       "css": ["content.css"],
       "run_at": "document_idle"
     }

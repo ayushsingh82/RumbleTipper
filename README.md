@@ -89,10 +89,11 @@ Tipping decision → Rumble Creator Wallet
 
 ```bash
 npm install
+cp .env.example .env.local   # add WDK_SEED_PHRASE
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000). Set `WDK_SEED_PHRASE` in `.env.local` for Connect Wallet. See `hack-info/README.md` for full hackathon and WDK docs.
+Open [http://localhost:3000](http://localhost:3000). **Full runbook (env, load extension, API, demo flow):** see **[demo.md](demo.md)**.
 
 ---
 

@@ -17,26 +17,19 @@ So: **no additional Tether docs are required** for the current backend + extensi
 
 ---
 
-## From Rumble (not in your repo — would need to be found)
+## From Rumble (no API — we read the page)
 
-1. **Rumble’s official tipping / wallet integration**
-   - How does Rumble expose **creator wallet addresses** (USD₮ / XAU₮ / BTC)?
-   - Is there a **public API or SDK** to:
-     - Resolve “creator id” or “channel id” → wallet address?
-     - Trigger a tip on Rumble’s side (so the tip is **native** in their UX, not just an on-chain transfer)?
-   - Without this we **simulate**: extension sends USDT from our WDK wallet to a **recipient address** the user pastes (or you hardcode for demo). For the track (“build on top of Rumble’s existing tipping wallet”), you’d want Rumble’s own docs or dev contact for:
-   - Creator ↔ wallet mapping.
-   - Any “tip” or “payment” API that fits their product.
+We **don’t use any Rumble API**. The extension **reads the DOM** to get creator/video info:
 
-2. **Rumble DOM / embed (for the extension)**
-   - We use **generic selectors** in `extension/content.js` (`a[href*="/videos/"]`, etc.). To make the overlay reliable and non-fragile:
-   - Inspect **rumble.com/browse** and **watch pages** and note:
-     - Stable **CSS selectors** or **data attributes** for “video card” and “creator/channel” elements.
-     - Where **creator id** or **channel id** appears (in `href`, `data-*`, or API payloads in the page).
-   - Rumble doesn’t need to publish “extension docs”; this is just DOM inspection. If they have a **public embed or widget API**, that could replace or complement our content script.
+- **extension/dom-reader.js** — Finds the hovered card, collects all links and text, parses paths (`/videos/...`, `/user/...`), and detects “N views”, “N subscribers”, etc. from the visible page. No docs needed; it’s generic DOM parsing.
+- **extension/content.js** — Uses that read info to show “Video: … · Creator: … · Views: …” in the overlay and to get a `creatorId` for our Alpha/tip API.
 
-3. **Rumble auth (optional)**
-   - If Rumble ever requires **logged-in user** or **API keys** to read creator data or trigger tips, you’d need their auth docs. Right now we don’t assume any Rumble auth.
+If Rumble changes their layout, you may need to tweak **dom-reader.js** (e.g. regex for views/subs) or the selectors in **content.js** after inspecting rumble.com in DevTools.
+
+What we still **don’t** have from Rumble (and would need their docs or dev contact for):
+
+1. **Creator → wallet address** — So we can prefill or validate the tip recipient instead of the user pasting 0x…. Or use Rumble’s **native tipping flow** (if they expose an API) so the tip is clearly “on Rumble” for the track.
+2. **Optional: stable selectors** — If you want the overlay to attach to very specific elements, inspect rumble.com and update the selectors; the DOM reader already works without Rumble docs.
 
 ---
 
