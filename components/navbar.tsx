@@ -1,6 +1,5 @@
 "use client"
 
-import { Cpu } from "lucide-react"
 import { motion } from "framer-motion"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { WalletConnect } from "@/components/wallet-connect"
@@ -22,7 +21,11 @@ export function Navbar() {
             transition={{ delay: 0.2, duration: 0.4 }}
             className="flex items-center gap-3"
           >
-            <Cpu size={16} strokeWidth={1.5} />
+            <img
+              src="/rumbletip-icon.svg"
+              alt="RumbleTip"
+              className="h-5 w-5 shrink-0"
+            />
             <span className="text-xs font-mono tracking-[0.15em] uppercase font-bold">
               RUMBLETIP
             </span>

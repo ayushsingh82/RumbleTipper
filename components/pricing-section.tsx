@@ -69,11 +69,9 @@ function BlinkDot() {
 interface Tier {
   id: string
   name: string
-  price: string
-  period: string
-  tag: string | null
+  label: string
   description: string
-  features: { text: string; included: boolean }[]
+  bullets: string[]
   cta: string
   highlighted: boolean
 }
@@ -82,63 +80,52 @@ const TIERS: Tier[] = [
   {
     id: "open-source",
     name: "STARTER_POOL",
-    price: "50",
-    period: " USD₮",
-    tag: null,
-    description: "Small pool. Agent tips rising creators; you set a daily cap.",
-    features: [
-      { text: "Up to 10 tips / day", included: true },
-      { text: "Max 5 USD₮ per tip", included: true },
-      { text: "Alpha score on hover", included: true },
-      { text: "Rumble native wallet", included: true },
-      { text: "Community pool", included: false },
-      { text: "Leaderboard access", included: false },
+    label: "Solo supporter sandbox",
+    description: "Try the agent on your own feed: small test budget, clear limits, full Alpha overlay.",
+    bullets: [
+      "Agent only tips when Alpha score crosses your threshold",
+      "Respect daily and per-creator limits you configure",
+      "Alpha score + suggested tip shown on hover",
+      "Uses Rumble’s native tipping wallet under the hood",
+      "Great for first-time experiments with RumbleTip",
     ],
-    cta: "DOWNLOAD EXTENSION",
+    cta: "Download extension",
     highlighted: false,
   },
   {
     id: "pro",
     name: "ALPHA_POOL",
-    price: "250",
-    period: " USD₮",
-    tag: "RECOMMENDED",
-    description: "Larger pool. Higher limits. Agent + extension + leaderboard.",
-    features: [
-      { text: "Up to 50 tips / day", included: true },
-      { text: "Max 25 USD₮ per tip", included: true },
-      { text: "Creator prediction leaderboard", included: true },
-      { text: "Smart budget rules", included: true },
-      { text: "Community pool", included: true },
-      { text: "Early supporter NFT", included: false },
+    label: "Alpha hunting mode",
+    description: "Let the agent hunt for high-upside creators across Rumble and keep a running leaderboard.",
+    bullets: [
+      "Tracks which creators your agent believes are early-stage winners",
+      "Shows a simple prediction leaderboard inside the dapp",
+      "Supports smarter budget rules and category filters",
+      "Designed for power users and curators who watch a lot of Rumble",
+      "Pairs best with the browser extension active while you browse",
     ],
-    cta: "DOWNLOAD EXTENSION",
+    cta: "Use Alpha view",
     highlighted: true,
   },
   {
     id: "enterprise",
     name: "COMMUNITY_POOL",
-    price: "CUSTOM",
-    period: "",
-    tag: null,
-    description: "Multiple backers, one pool. Agent allocates collectively.",
-    features: [
-      { text: "Shared tipping pool", included: true },
-      { text: "Custom limits per backer", included: true },
-      { text: "Agent accuracy metrics", included: true },
-      { text: "Rumble + WDK integration", included: true },
-      { text: "Custom rules", included: true },
-      { text: "Reputation / NFT", included: true },
+    label: "Community pool (experimental)",
+    description: "Many backers, one shared pool. The agent allocates tips on behalf of a community instead of a single user.",
+    bullets: [
+      "Shared virtual pool where multiple supporters delegate tipping to the agent",
+      "Space for on-chain metrics about agent accuracy and creator outcomes",
+      "Custom rules per backer (caps, categories, languages)",
+      "Designed as a research / hackathon concept for future Rumble-native communities",
+      "Great slide for talking about “agents as collective treasuries” in your demo",
     ],
-    cta: "CONTACT US",
+    cta: "Explore concept",
     highlighted: false,
   },
 ]
 
 /* ── single pricing card ── */
 function PricingCard({ tier, index }: { tier: Tier; index: number }) {
-  const isCustom = tier.price === "CUSTOM"
-
   return (
     <motion.div
       initial={{ opacity: 0, y: 30, filter: "blur(4px)" }}
@@ -151,7 +138,6 @@ function PricingCard({ tier, index }: { tier: Tier; index: number }) {
           : "border-2 border-foreground bg-background text-foreground"
       }`}
     >
-      {/* Card header */}
       <div
         className={`flex items-center justify-between px-5 py-3 border-b-2 ${
           tier.highlighted ? "border-background/20" : "border-foreground"
@@ -160,37 +146,16 @@ function PricingCard({ tier, index }: { tier: Tier; index: number }) {
         <span className="text-[10px] tracking-[0.2em] uppercase font-mono">
           {tier.name}
         </span>
-        <div className="flex items-center gap-2">
-          {tier.tag && (
-            <span className="bg-[#ea580c] text-background text-[9px] tracking-[0.15em] uppercase px-2 py-0.5 font-mono">
-              {tier.tag}
-            </span>
-          )}
-          <span className="text-[10px] tracking-[0.2em] font-mono opacity-50">
-            {String(index + 1).padStart(2, "0")}
-          </span>
-        </div>
+        <span className="text-[10px] tracking-[0.2em] font-mono opacity-50">
+          {String(index + 1).padStart(2, "0")}
+        </span>
       </div>
 
-      {/* Price block */}
       <div className="px-5 pt-6 pb-4">
         <div className="flex items-baseline gap-1">
-          {isCustom ? (
-            <span className="text-3xl lg:text-4xl font-mono font-bold tracking-tight">CUSTOM</span>
-          ) : (
-            <span className="text-3xl lg:text-4xl">
-              <ScramblePrice target={tier.price} />
-            </span>
-          )}
-          {tier.period && (
-            <span
-              className={`text-xs font-mono tracking-widest uppercase ${
-                tier.highlighted ? "text-background/50" : "text-muted-foreground"
-              }`}
-            >
-              {tier.period}
-            </span>
-          )}
+          <span className="text-xs font-mono tracking-[0.18em] uppercase text-[#ea580c]">
+            {tier.label}
+          </span>
         </div>
         <p
           className={`text-xs font-mono mt-3 leading-relaxed ${
@@ -201,47 +166,28 @@ function PricingCard({ tier, index }: { tier: Tier; index: number }) {
         </p>
       </div>
 
-      {/* Feature list */}
       <div
         className={`flex-1 px-5 py-4 border-t-2 ${
           tier.highlighted ? "border-background/20" : "border-foreground"
         }`}
       >
         <div className="flex flex-col gap-3">
-          {tier.features.map((feature, fi) => (
+          {tier.bullets.map((text, fi) => (
             <motion.div
-              key={feature.text}
+              key={text}
               initial={{ opacity: 0, x: -8 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.12 + 0.3 + fi * 0.04, duration: 0.35, ease }}
               className="flex items-start gap-3"
             >
-              {feature.included ? (
-                <Check
-                  size={12}
-                  strokeWidth={2.5}
-                  className="mt-0.5 shrink-0 text-[#ea580c]"
-                />
-              ) : (
-                <Minus
-                  size={12}
-                  strokeWidth={2}
-                  className={`mt-0.5 shrink-0 ${
-                    tier.highlighted ? "text-background/30" : "text-muted-foreground/40"
-                  }`}
-                />
-              )}
-              <span
-                className={`text-xs font-mono leading-relaxed ${
-                  feature.included
-                    ? ""
-                    : tier.highlighted
-                    ? "text-background/30 line-through"
-                    : "text-muted-foreground/40 line-through"
-                }`}
-              >
-                {feature.text}
+              <Check
+                size={12}
+                strokeWidth={2.5}
+                className="mt-0.5 shrink-0 text-[#ea580c]"
+              />
+              <span className="text-xs font-mono leading-relaxed">
+                {text}
               </span>
             </motion.div>
           ))}

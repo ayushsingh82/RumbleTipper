@@ -7,12 +7,12 @@
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      width: 320px;
-      min-height: 280px;
+      width: 380px;
+      min-height: 380px;
       font-family: ui-monospace, "Cascadia Code", "Fira Code", monospace;
-      background: #0a0a0a;
+      background: #050509;
       color: #e5e5e5;
-      padding: 20px 16px;
+      padding: 18px 18px 22px;
       -webkit-font-smoothing: antialiased;
     }
     .logo-row {
@@ -25,11 +25,6 @@
       width: 28px;
       height: 28px;
       flex-shrink: 0;
-      display: block;
-    }
-    .logo-icon svg {
-      width: 100%;
-      height: 100%;
       display: block;
     }
     .logo-row span {
@@ -58,38 +53,202 @@
       font-size: 11px;
       line-height: 1.5;
       color: #a3a3a3;
-      margin-bottom: 16px;
+      margin-bottom: 18px;
     }
     .cta {
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: #737373;
+      font-size: 11px;
+      color: #9ca3af;
+      margin-bottom: 18px;
     }
     a {
       color: #ea580c;
       text-decoration: none;
     }
     a:hover { text-decoration: underline; }
+
+    .mode-toggle {
+      display: inline-flex;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      padding: 2px;
+      margin-bottom: 12px;
+      background: rgba(15, 23, 42, 0.9);
+    }
+    .mode-pill {
+      font-size: 10px;
+      padding: 5px 12px;
+      border-radius: 999px;
+      cursor: default;
+    }
+    .mode-pill--active {
+      background: #ea580c;
+      color: #020617;
+      font-weight: 600;
+    }
+    .mode-pill--muted {
+      color: #9ca3af;
+    }
+    .wallet-panel {
+      border-radius: 12px;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      background: radial-gradient(circle at top left, rgba(234, 88, 12, 0.18), transparent 55%),
+                  radial-gradient(circle at bottom right, rgba(15, 23, 42, 0.9), #020617);
+      padding: 12px 11px 11px;
+      margin-bottom: 10px;
+    }
+    .wallet-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .wallet-label {
+      font-size: 10px;
+      color: #9ca3af;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 2px;
+    }
+    .wallet-balance {
+      font-size: 18px;
+      font-weight: 650;
+      color: #f9fafb;
+    }
+    .wallet-sub {
+      font-size: 10px;
+      color: #9ca3af;
+    }
+    .wallet-chip {
+      font-size: 9px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      color: #e5e7eb;
+      background: rgba(15, 23, 42, 0.9);
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    .metric-card {
+      border-radius: 10px;
+      border: 1px solid rgba(31, 41, 55, 0.9);
+      background: radial-gradient(circle at top, rgba(15, 23, 42, 0.85), #020617);
+      padding: 8px 8px 7px;
+    }
+    .metric-label {
+      font-size: 9px;
+      color: #6b7280;
+      margin-bottom: 2px;
+    }
+    .metric-value {
+      font-size: 13px;
+      font-weight: 600;
+      color: #f9fafb;
+      margin-bottom: 3px;
+    }
+    .metric-sub {
+      font-size: 9px;
+      color: #6b7280;
+    }
+    .footer-note {
+      margin-top: 8px;
+      font-size: 9px;
+      color: #4b5563;
+    }
+    .creator-cta {
+      margin-top: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+    .creator-cta-text {
+      font-size: 10px;
+      color: #9ca3af;
+    }
+    .creator-cta-button {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(234, 88, 12, 0.9);
+      background: #ea580c;
+      color: #020617;
+      cursor: pointer;
+      white-space: nowrap;
+    }
   </style>
 </head>
 <body>
   <div class="logo-row">
-    <span class="logo-icon" aria-hidden="true">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
-        <rect width="24" height="24" rx="5" fill="#ea580c"/>
-        <text x="12" y="16" font-family="system-ui,sans-serif" font-size="14" font-weight="bold" fill="white" text-anchor="middle">R</text>
-      </svg>
-    </span>
+    <img src="icons/icon48.png" alt="RumbleTip" class="logo-icon" />
     <span>RumbleTip</span>
   </div>
   <h1 class="headline">FIND. TIP. SUPPORT.</h1>
   <p class="headline-sub">RUMBLETIP.</p>
   <p class="tagline">
-    AI agent that finds high-potential Rumble creators early and tips them. Deposit USD₮, let the agent analyze engagement and send tips via Rumble’s native wallet.
+    AI agent that finds high‑potential Rumble creators early and sends tips on your behalf using Rumble’s native wallet.
   </p>
   <p class="cta">
-    Go to <a href="https://rumble.com/browse" target="_blank">rumble.com</a> and hover over a video to see Alpha score and Tip via Agent.
+    Open <a href="https://rumble.com/browse" target="_blank">rumble.com</a> and hover any video. The overlay behaves like an in‑page wallet: Alpha score, suggested tip, and “Tip via Agent”.
+  </p>
+  <div class="mode-toggle">
+    <span class="mode-pill mode-pill--active">Supporter wallet</span>
+    <span class="mode-pill mode-pill--muted">Creator earnings</span>
+  </div>
+
+  <div class="wallet-panel">
+    <div class="wallet-row">
+      <div>
+        <div class="wallet-label">RumbleTip balance (demo)</div>
+        <div class="wallet-balance">215.80 USD₮</div>
+        <div class="wallet-sub">Held in your RumbleTip agent wallet</div>
+      </div>
+      <div class="wallet-chip">Sepolia · Test funds</div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="metric-card">
+      <div class="metric-label">Total tipped (demo)</div>
+      <div class="metric-value">$125.40 USD₮</div>
+      <div class="metric-sub">Across 18 creators this week</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Largest single tip</div>
+      <div class="metric-value">$15.00 USD₮</div>
+      <div class="metric-sub">Creator “@earlysignal_tv”</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Creator earnings (demo)</div>
+      <div class="metric-value">$342.75 USD₮</div>
+      <div class="metric-sub">Received by your channel from agents</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Last tip</div>
+      <div class="metric-value">$5.00 USD₮</div>
+      <div class="metric-sub">Sent 3 min ago via RumbleTip</div>
+    </div>
+  </div>
+  <div class="creator-cta">
+    <div class="creator-cta-text">
+      Creator? Link your Rumble channel to a wallet and start receiving agent tips.
+    </div>
+    <button
+      type="button"
+      class="creator-cta-button"
+      onclick="window.open('http://localhost:3000/creator/register', '_blank')"
+    >
+      Register as creator
+    </button>
+  </div>
+  <p class="footer-note">
+    All values above are demo placeholders for the hackathon. In a full build, this popup would pull real balances and history from on‑chain data + Rumble creator wallets.
   </p>
 </body>
 </html>
