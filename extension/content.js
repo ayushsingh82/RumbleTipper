@@ -1,5 +1,5 @@
 /**
- * RumbleTip content script — runs on rumble.com
+ * RumbleTipper content script — runs on rumble.com
  * On hover over video/creator cards: fetch alpha score, show overlay, "Tip via Agent" button.
  */
 
@@ -15,8 +15,8 @@
   let hideTimeout = null;
 
   function getReadInfoFromDOM(el) {
-    if (typeof RumbleTipDOM !== "undefined" && RumbleTipDOM.readCardInfo) {
-      return RumbleTipDOM.readCardInfo(el);
+    if (typeof RumbleTipperDOM !== "undefined" && RumbleTipperDOM.readCardInfo) {
+      return RumbleTipperDOM.readCardInfo(el);
     }
     const link = el.closest("a") || el.querySelector("a");
     let creatorId = "demo-creator-" + Math.random().toString(36).slice(2, 9);
@@ -39,7 +39,7 @@
       <div class="rumbletip-card">
         <div class="rumbletip-loading">Loading…</div>
         <div class="rumbletip-content" style="display:none">
-          <div class="rumbletip-title">RumbleTip</div>
+          <div class="rumbletip-title">RumbleTipper</div>
           <div class="rumbletip-read-from-page"></div>
           <div class="rumbletip-score"></div>
           <div class="rumbletip-metrics"></div>

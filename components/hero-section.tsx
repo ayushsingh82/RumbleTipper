@@ -41,7 +41,7 @@ export function HeroSection() {
           className="font-pixel text-4xl sm:text-6xl lg:text-7xl xl:text-8xl tracking-tight text-foreground mb-4 select-none"
           aria-hidden="true"
         >
-          RUMBLETIP.
+          RUMBLETIPPER.
         </motion.h1>
 
         {/* Sub-headline */}
@@ -125,7 +125,7 @@ export function HeroSection() {
                   <span className="text-xs font-semibold text-foreground">$125.40 USD₮ tipped</span>
                 </div>
                 <p className="text-muted-foreground">
-                  RumbleTip tracks how much your agent has sent across all creators this week and keeps
+                  RumbleTipper tracks how much your agent has sent across all creators this week and keeps
                   you within your budget.
                 </p>
               </>

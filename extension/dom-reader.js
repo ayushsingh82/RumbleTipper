@@ -150,5 +150,5 @@
     };
   }
 
-  global.RumbleTipDOM = { readCardInfo, getCardRoot, getAllText, getAllLinks };
+  global.RumbleTipperDOM = { readCardInfo, getCardRoot, getAllText, getAllLinks };
 })(typeof window !== "undefined" ? window : globalThis);

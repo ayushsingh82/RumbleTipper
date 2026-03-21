@@ -1,4 +1,4 @@
-# RumbleTip
+# RumbleTipper
 
 **AI agent that finds high-potential creators early on Rumble and tips them — built for the Hackathon Galáctica Tipping Bot track.**
 
@@ -16,7 +16,7 @@ There is **no mechanism to financially support rising creators early**.
 
 ---
 
-## Solution: RumbleTip
+## Solution: RumbleTipper
 
 An AI agent that:
 

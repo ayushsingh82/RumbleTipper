@@ -11,11 +11,11 @@ const jetbrainsMono = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'RumbleTip — Tip Rumble creators via AI agent',
+  title: 'RumbleTipper — Tip Rumble creators via AI agent',
   description:
-    'RumbleTip finds high-potential Rumble creators early and tips them. Deposit USD₮, let the agent analyze engagement and send tips via Rumble’s native wallet. Hackathon Galáctica Tipping Bot track.',
+    'RumbleTipper finds high-potential Rumble creators early and tips them. Deposit USD₮, let the agent analyze engagement and send tips via Rumble’s native wallet. Hackathon Galáctica Tipping Bot track.',
   keywords: [
-    'RumbleTip',
+    'RumbleTipper',
     'Rumble',
     'tipping',
     'creator',
@@ -26,9 +26,9 @@ export const metadata: Metadata = {
     'Tipping Bot',
     'AI agent',
   ],
-  authors: [{ name: 'RumbleTip' }],
-  creator: 'RumbleTip',
-  publisher: 'RumbleTip',
+  authors: [{ name: 'RumbleTipper' }],
+  creator: 'RumbleTipper',
+  publisher: 'RumbleTipper',
   robots: {
     index: true,
     follow: true,
@@ -43,14 +43,14 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    title: 'RumbleTip — Tip Rumble creators via AI agent',
+    title: 'RumbleTipper — Tip Rumble creators via AI agent',
     description:
       'Find rising Rumble creators early. Deposit USD₮, agent analyzes engagement and tips via Rumble’s native wallet. Tipping Bot track · Hackathon Galáctica WDK Edition 1.',
-    siteName: 'RumbleTip',
+    siteName: 'RumbleTipper',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'RumbleTip — Tip Rumble creators via AI agent',
+    title: 'RumbleTipper — Tip Rumble creators via AI agent',
     description:
       'AI agent that finds high-potential Rumble creators and tips them. USD₮, WDK, Rumble native wallet. Hackathon Galáctica Tipping Bot.',
     creator: '@rumbletip',

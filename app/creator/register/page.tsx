@@ -1,9 +1,10 @@
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
+import Link from "next/link"
 
 export const metadata = {
-  title: "Register as Creator — RumbleTip",
-  description: "Link your Rumble channel to a wallet so the RumbleTip agent can route tips directly to you.",
+  title: "Register as Creator — RumbleTipper",
+  description: "Link your Rumble channel to a wallet so the RumbleTipper agent can route tips directly to you.",
 }
 
 export default function CreatorRegisterPage() {
@@ -16,7 +17,7 @@ export default function CreatorRegisterPage() {
             Register as Creator
           </h1>
           <p className="text-sm text-muted-foreground font-mono mb-8">
-            Link your Rumble channel to an on-chain wallet so the RumbleTip agent can send tips directly to you.
+            Link your Rumble channel to an on-chain wallet so the RumbleTipper agent can send tips directly to you.
             This page is a demo for the hackathon — it does not modify any real Rumble account.
           </p>
 
@@ -106,8 +107,14 @@ export default function CreatorRegisterPage() {
                 </div>
                 <p className="text-[11px] text-muted-foreground mt-2">
                   Numbers above are mock data for the hackathon. In production they would be derived from on-chain
-                  transfers from the RumbleTip agent wallet to your wallet.
+                  transfers from the RumbleTipper agent wallet to your wallet.
                 </p>
+                <Link
+                  href="/creator/dashboard"
+                  className="inline-flex items-center justify-center rounded border border-[#ea580c] px-3 py-2 text-[11px] font-mono uppercase tracking-[0.16em] text-[#ea580c]"
+                >
+                  Open creator dashboard
+                </Link>
               </div>
             </aside>
           </div>

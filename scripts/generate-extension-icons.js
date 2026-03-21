@@ -1,5 +1,5 @@
 /**
- * Generates 48x48 and 128x128 PNG icons for the RumbleTip extension.
+ * Generates 48x48 and 128x128 PNG icons for the RumbleTipper extension.
  * Run from project root: node scripts/generate-extension-icons.js
  * Requires: npm install pngjs --save-dev
  */

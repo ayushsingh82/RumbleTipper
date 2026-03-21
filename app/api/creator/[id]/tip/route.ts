@@ -37,7 +37,7 @@ export async function POST(
   const amount = body?.amount;
   const recipient = body?.recipient;
 
-  const maxPerTip = Number(process.env.RUMBLETIP_MAX_PER_TIP_USD) || 1000;
+  const maxPerTip = Number(process.env.RUMBLETIPPER_MAX_PER_TIP_USD) || 1000;
   if (typeof amount !== "number" || amount <= 0 || amount > maxPerTip) {
     return NextResponse.json(
       { error: `amount must be a number between 0 and ${maxPerTip}` },

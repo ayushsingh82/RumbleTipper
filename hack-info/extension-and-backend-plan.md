@@ -1,4 +1,4 @@
-# RumbleTip — Extension & Backend Plan
+# RumbleTipper — Extension & Backend Plan
 
 ## High-level: what you'd build
 
@@ -14,7 +14,7 @@
 
 ### Backend agent service
 
-- Runs your **RumbleTip agent** (OpenClaw or similar).
+- Runs your **RumbleTipper agent** (OpenClaw or similar).
 - Periodically ingests Rumble data (scraped/queried via API if available) and stores:
   - Per-creator metrics
   - Scores / predictions

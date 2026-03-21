@@ -1,5 +1,5 @@
 /**
- * CORS headers for API routes called from the RumbleTip browser extension (origin: chrome-extension://*).
+ * CORS headers for API routes called from the RumbleTipper browser extension (origin: chrome-extension://*).
  */
 
 export function corsHeaders(): Record<string, string> {

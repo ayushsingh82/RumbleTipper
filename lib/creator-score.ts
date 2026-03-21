@@ -1,5 +1,5 @@
 /**
- * Creator alpha scoring for RumbleTip.
+ * Creator alpha scoring for RumbleTipper.
  * Demo: deterministic mock from creator id. Replace with real metrics (view velocity, engagement) when Rumble data is available.
  */
 

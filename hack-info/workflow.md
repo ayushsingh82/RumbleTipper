@@ -1,4 +1,4 @@
-# RumbleTip — Implementation Workflow
+# RumbleTipper — Implementation Workflow
 
 Plan and implementation log for the extension + backend. See [extension-and-backend-plan.md](extension-and-backend-plan.md) for the high-level design.
 
@@ -37,7 +37,7 @@ Plan and implementation log for the extension + backend. See [extension-and-back
 
 ```
 app/api/creator/[id]/alpha/route.ts   ← GET score (uses lib/creator-score.ts)
-app/api/creator/[id]/tip/route.ts    ← POST tip (WDK transferEvmToken); CORS + RUMBLETIP_MAX_PER_TIP_USD
+app/api/creator/[id]/tip/route.ts    ← POST tip (WDK transferEvmToken); CORS + RUMBLETIPPER_MAX_PER_TIP_USD
 lib/
   wdk-evm.ts         ← createWdkEvmFromEnv, transferEvmToken
   creator-score.ts   ← getAlphaScore(id) — mock scoring

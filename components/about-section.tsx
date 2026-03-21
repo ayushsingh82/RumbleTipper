@@ -145,7 +145,7 @@ export function AboutSection() {
 
           <Image
             src="/images/about-isometric.jpg"
-            alt="RumbleTip flow: deposit, analyze, tip on Rumble"
+            alt="RumbleTipper flow: deposit, analyze, tip on Rumble"
             fill
             className="object-cover"
             sizes="(max-width: 1024px) 100vw, 50vw"
@@ -204,7 +204,7 @@ export function AboutSection() {
                 className="flex flex-col gap-4"
               >
                 <p className="text-xs lg:text-sm font-mono text-muted-foreground leading-relaxed">
-                  RumbleTip is an AI agent that analyzes Rumble content, scores
+                  RumbleTipper is an AI agent that analyzes Rumble content, scores
                   creator growth potential, and tips them via Rumble’s native
                   USD₮ / XAU₮ / BTC wallet. Fans deposit once; the agent decides
                   who to support and when — so rising creators get funded early.

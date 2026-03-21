@@ -3,6 +3,7 @@
 import { motion } from "framer-motion"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { WalletConnect } from "@/components/wallet-connect"
+import Link from "next/link"
 
 export function Navbar() {
   return (
@@ -21,14 +22,16 @@ export function Navbar() {
             transition={{ delay: 0.2, duration: 0.4 }}
             className="flex items-center gap-3"
           >
-            <img
-              src="/rumbletip-icon.svg"
-              alt="RumbleTip"
-              className="h-5 w-5 shrink-0"
-            />
-            <span className="text-xs font-mono tracking-[0.15em] uppercase font-bold">
-              RUMBLETIP
-            </span>
+            <Link href="/" className="flex items-center gap-3">
+              <img
+                src="/rumbletip-icon.svg"
+                alt="RumbleTipper"
+                className="h-5 w-5 shrink-0"
+              />
+              <span className="text-xs font-mono tracking-[0.15em] uppercase font-bold">
+                RUMBLETIPPER
+              </span>
+            </Link>
           </motion.div>
 
           {/* Right side: Theme + Wallet (WDK EVM) */}

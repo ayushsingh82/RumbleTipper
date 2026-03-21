@@ -1,4 +1,4 @@
-# RumbleTip — How to Use (Demo Guide)
+# RumbleTipper — How to Use (Demo Guide)
 
 Run the app, load the extension, and demo the full flow: landing page wallet + Rumble hover overlay + Alpha score + Tip via Agent.
 
@@ -40,7 +40,7 @@ WDK_RPC_URL=https://sepolia.drpc.org
 # WDK_USDT_CONTRACT=0x...
 
 # Optional: max USD per tip (default 1000)
-# RUMBLETIP_MAX_PER_TIP_USD=100
+# RUMBLETIPPER_MAX_PER_TIP_USD=100
 ```
 
 **If you see sodium-native / “Cannot find addon” errors:**
@@ -62,7 +62,7 @@ npm run dev
 
 ---
 
-## 3. Load the RumbleTip extension (Chrome/Brave)
+## 3. Load the RumbleTipper extension (Chrome/Brave)
 
 1. Open **Chrome** or **Brave**.
 2. Go to **Extensions**:  
@@ -73,13 +73,13 @@ npm run dev
 5. Choose the **`extension`** folder inside this repo  
    e.g. `.../hedera1/extension`  
    (the folder that contains `manifest.json`, `content.js`, `dom-reader.js`, `content.css`).
-6. Confirm **RumbleTip** appears in the list and is enabled.
+6. Confirm **RumbleTipper** appears in the list and is enabled.
 7. **(Optional)** To show the orange “R” logo in the toolbar, from the project root run:  
    `npm run generate-ext-icons`  
    Then reload the extension. Icons are written to `extension/icons/`.
 
 - **Toolbar icon** — Orange “R” logo (same brand as the app). If you haven’t run `generate-ext-icons`, Chrome will use a default icon.
-- **Popup** — Click the extension icon in the toolbar to open a popup with the same hero message as the home page: “FIND. TIP. SUPPORT.” / “RUMBLETIP.” and a short tagline + link to rumble.com.
+- **Popup** — Click the extension icon in the toolbar to open a popup with the same hero message as the home page: “FIND. TIP. SUPPORT.” / “RUMBLETIPPER.” and a short tagline + link to rumble.com.
 
 The extension will run only on **https://rumble.com/***. It does not run on localhost.
 
@@ -90,7 +90,7 @@ The content script calls your API. By default it uses `http://localhost:3000`.
 - **Local demo:** keep `API_BASE = "http://localhost:3000"` in `extension/content.js` (line ~7).
 - **Deployed demo:** change it to your app URL, e.g.  
   `const API_BASE = "https://your-app.vercel.app";`  
-  then reload the extension (Extensions page → RumbleTip → reload icon).
+  then reload the extension (Extensions page → RumbleTipper → reload icon).
 
 ---
 
@@ -108,7 +108,7 @@ The content script calls your API. By default it uses `http://localhost:3000`.
 
 1. Open **https://rumble.com** (e.g. **https://rumble.com/browse**).
 2. Hover over a **video or creator card** (thumbnail, title, or link to a video).
-3. A **RumbleTip overlay** should appear with:
+3. A **RumbleTipper overlay** should appear with:
    - **Read from page:** Video title, creator, views, etc. (parsed from the DOM by `dom-reader.js`).
    - **Alpha Score:** from your API (mock score + suggested tip).
    - **Suggested tip:** e.g. 5 USD₮.
@@ -212,7 +212,7 @@ curl http://localhost:3000/api/wallet
 |-------|------|
 | **Extension** | |
 | `extension/content.js` | Runs on rumble.com. On hover: `getReadInfoFromDOM()` → show overlay → GET alpha → show score + form → POST tip on button click. |
-| `extension/dom-reader.js` | `RumbleTipDOM.readCardInfo(el)`: finds card root, collects links and text, parses video/creator id, views, subscribers, title. No Rumble API. |
+| `extension/dom-reader.js` | `RumbleTipperDOM.readCardInfo(el)`: finds card root, collects links and text, parses video/creator id, views, subscribers, title. No Rumble API. |
 | `extension/content.css` | Styles for the overlay card. |
 | **Backend (Next.js API)** | |
 | `app/api/creator/[id]/alpha/route.ts` | GET: returns `getAlphaScore(id)` (mock score + suggested tip). |
@@ -238,6 +238,6 @@ curl http://localhost:3000/api/wallet
 ## 8. Deploying (e.g. Vercel)
 
 1. Deploy the Next.js app (e.g. `vercel`).
-2. Set env vars in the dashboard: `WDK_SEED_PHRASE`, optionally `WDK_RPC_URL`, `WDK_USDT_CONTRACT`, `RUMBLETIP_MAX_PER_TIP_USD`.
+2. Set env vars in the dashboard: `WDK_SEED_PHRASE`, optionally `WDK_RPC_URL`, `WDK_USDT_CONTRACT`, `RUMBLETIPPER_MAX_PER_TIP_USD`.
 3. In `extension/content.js`, set `API_BASE` to your deployed URL (e.g. `https://yourapp.vercel.app`).
 4. Reload the extension. The overlay on Rumble will then call your deployed API.

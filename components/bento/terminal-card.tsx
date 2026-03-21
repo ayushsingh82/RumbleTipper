@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 
 const LOG_LINES = [
-  "> RumbleTip Agent v1.0",
+  "> RumbleTipper Agent v1.0",
   "> Connecting to Rumble browse...",
   "> Scanning video metrics...",
   "> View velocity: +12% (spike)",

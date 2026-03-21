@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "RumbleTip",
+  "name": "RumbleTipper",
   "version": "1.0.0",
-  "description": "Tip Rumble creators via AI agent. Hover to see Alpha score and Tip via Agent.",
+  "description": "RumbleTipper helps discover and support Rumble creators with AI-assisted tipping flows.",
   "icons": {
     "48": "icons/icon48.png",
     "128": "icons/icon128.png"

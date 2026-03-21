@@ -87,7 +87,7 @@ const TIERS: Tier[] = [
       "Respect daily and per-creator limits you configure",
       "Alpha score + suggested tip shown on hover",
       "Uses Rumble’s native tipping wallet under the hood",
-      "Great for first-time experiments with RumbleTip",
+      "Great for first-time experiments with RumbleTipper",
     ],
     cta: "Download extension",
     highlighted: false,
