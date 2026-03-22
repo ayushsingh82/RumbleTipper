@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "RumbleTipper",
-  "version": "1.0.0",
-  "description": "RumbleTipper helps discover and support Rumble creators with AI-assisted tipping flows.",
+  "name": "Rumble Tipper",
+  "version": "1.4.0",
+  "description": "Rumble Tipper — Alpha scores and ETH tips on rumble.com; pairs with rumble-tipper.vercel.app.",
   "icons": {
     "48": "icons/icon48.png",
     "128": "icons/icon128.png"
@@ -14,11 +14,12 @@
       "128": "icons/icon128.png"
     }
   },
-  "permissions": [],
+  "permissions": ["storage"],
   "host_permissions": [
     "https://rumble.com/*",
     "http://localhost:3000/*",
-    "https://*.vercel.app/*"
+    "https://*.vercel.app/*",
+    "https://rumble-tipper.vercel.app/*"
   ],
   "content_scripts": [
     {

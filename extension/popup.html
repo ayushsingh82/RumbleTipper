@@ -2,128 +2,159 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=380" />
-  <title>RumbleTipper</title>
+  <meta name="viewport" content="width=400" />
+  <title>Rumble Tipper</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="popup.css" />
 </head>
 <body>
   <div class="shell">
     <header class="topbar">
       <div class="brand">
-        <img src="icons/icon48.png" alt="RumbleTipper" class="brand-icon" />
+        <img src="icons/icon48.png" alt="" class="brand-icon" width="28" height="28" />
         <div>
-          <p class="brand-name">RUMBLETIPPER</p>
-          <p class="brand-sub">Creator tipping control panel</p>
+          <p class="brand-name">Rumble Tipper</p>
+          <p class="brand-sub">On Rumble · Base Sepolia</p>
         </div>
       </div>
     </header>
 
     <nav class="tabs" aria-label="Popup pages">
       <button type="button" class="tab active" data-tab="overview">Overview</button>
+      <button type="button" class="tab" data-tab="auto">Auto tip</button>
       <button type="button" class="tab" data-tab="activity">Activity</button>
-      <button type="button" class="tab" data-tab="settings">Settings</button>
+      <button type="button" class="tab" data-tab="settings">Wallet</button>
     </nav>
 
     <main class="content">
       <section id="overview" class="view active">
-        <div class="hero">
-          <p class="hero-title">Discover creators and tip with confidence</p>
-          <p class="hero-copy">RumbleTipper gives you a compact cockpit for quick decisions on Rumble.</p>
+        <div class="hero hero-dot">
+          <p class="hero-kicker">FIND · TIP · SUPPORT</p>
+          <p class="hero-title">RumbleTipper</p>
+          <p class="hero-copy">
+            Hover videos on Rumble for Alpha score and ETH tips via your WDK wallet on <strong>Base Sepolia</strong>.
+          </p>
+          <div class="hero-badges">
+            <span class="badge">WDK</span>
+            <span class="badge">Next.js API</span>
+            <span class="badge">DOM context</span>
+          </div>
         </div>
 
         <div class="stats">
-          <article class="card">
+          <article class="card card-stat">
             <p class="label">Today</p>
-            <p class="value">$42.50</p>
-            <p class="meta">8 creator tips</p>
+            <p class="value">0.02 <span class="unit">ETH</span></p>
+            <p class="meta">Tips (demo)</p>
           </article>
-          <article class="card">
-            <p class="label">Weekly</p>
-            <p class="value">$167.00</p>
-            <p class="meta">22 creator tips</p>
+          <article class="card card-stat">
+            <p class="label">This week</p>
+            <p class="value">0.08 <span class="unit">ETH</span></p>
+            <p class="meta">Rolling (demo)</p>
           </article>
-          <article class="card">
+          <article class="card card-stat">
             <p class="label">Watchlist</p>
-            <p class="value">14</p>
-            <p class="meta">4 with strong trend</p>
+            <p class="value">—</p>
+            <p class="meta">From Alpha scores</p>
           </article>
-          <article class="card">
-            <p class="label">Wallet</p>
-            <p class="value">USDt 212</p>
-            <p class="meta">Base Sepolia</p>
+          <article class="card card-stat">
+            <p class="label">Network</p>
+            <p class="value value-sm">Base Sepolia</p>
+            <p class="meta">Test ETH for gas</p>
           </article>
         </div>
-        <div class="quick-actions">
-          <button type="button" class="ghost-btn">Open Rumble feed</button>
-          <button type="button" class="ghost-btn">Review top creators</button>
+
+        <div class="cta-row">
+          <button type="button" id="openRumbleBtn" class="primary-btn">Open Rumble</button>
+          <button type="button" id="openSiteBtn" class="ghost-btn">Landing page</button>
         </div>
       </section>
 
+      <section id="auto" class="view">
+        <div class="section section-tight">
+          <h2>Auto tip rules</h2>
+          <p>When you’ve watched long enough on a video, the overlay can pre-fill this ETH amount. Full auto-send still uses “Tip via Agent” so you confirm the recipient.</p>
+        </div>
+
+        <form id="autoRulesForm" class="settings-form">
+          <label class="toggle toggle-block">
+            <input type="checkbox" id="autoTipEnabled" />
+            <span>Enable watch-time rules</span>
+          </label>
+
+          <label class="field">
+            <span>Tip amount when rule fires (ETH)</span>
+            <input type="number" id="autoTipAmountEth" min="0.0001" max="1" step="0.0001" value="0.001" />
+          </label>
+
+          <label class="field">
+            <span>Minimum watch time (minutes, same video / tab session)</span>
+            <input type="number" id="minWatchMinutes" min="0" max="240" step="1" value="3" />
+          </label>
+
+          <label class="field">
+            <span>Only if Alpha score ≥ (0–1, optional)</span>
+            <input type="number" id="minAlphaScore" min="0" max="1" step="0.05" value="0" placeholder="0 = ignore" />
+          </label>
+
+          <p class="form-hint" id="autoRulesStatus"></p>
+
+          <button type="submit" class="save-btn">Save auto rules</button>
+        </form>
+      </section>
+
       <section id="activity" class="view">
-        <div class="section">
+        <div class="section section-tight">
           <h2>Recent activity</h2>
-          <p>Latest actions from your assistant and manual tips.</p>
+          <p>Latest tips and skips (demo copy — wire to API later).</p>
         </div>
         <div class="list">
           <article class="row">
             <div>
-              <p class="row-title">Tip sent to @blockwire</p>
-              <p class="row-meta">3.0 USDt • 2m ago</p>
+              <p class="row-title">Tip sent · @creator</p>
+              <p class="row-meta">0.001 ETH · Base Sepolia</p>
             </div>
             <span class="pill ok">Done</span>
           </article>
           <article class="row">
             <div>
-              <p class="row-title">Skipped @chainbeat</p>
-              <p class="row-meta">Budget guard triggered</p>
+              <p class="row-title">Skipped · budget guard</p>
+              <p class="row-meta">Rule cap</p>
             </div>
-            <span class="pill warn">Skipped</span>
-          </article>
-          <article class="row">
-            <div>
-              <p class="row-title">Rule updated</p>
-              <p class="row-meta">Tip cap changed from 3 to 4 USDt</p>
-            </div>
-            <span class="pill ok">Saved</span>
+            <span class="pill warn">Skip</span>
           </article>
         </div>
       </section>
 
       <section id="settings" class="view">
-        <div class="section">
+        <div class="section section-tight">
           <h2>Wallet (WDK)</h2>
-          <p>Connect the same WDK wallet used by the website backend.</p>
+          <p>Same programmable wallet as the website backend. RPC in <code>.env.local</code> should point at <strong>Base Sepolia</strong> for test tips.</p>
         </div>
         <div class="wallet-box">
-          <div id="walletState" class="wallet-state">Wallet not connected</div>
+          <div id="walletState" class="wallet-state">Not connected — tap Connect.</div>
           <div class="wallet-actions">
             <button type="button" id="connectWalletBtn" class="save-btn">Connect wallet</button>
             <button type="button" id="createWalletBtn" class="ghost-btn">Make wallet</button>
           </div>
-          <p class="wallet-help">Uses <code>/api/wallet</code>. For new wallet setup, open the website onboarding.</p>
+          <p class="wallet-help">Uses <code>GET /api/wallet</code> on <a href="https://rumble-tipper.vercel.app" target="_blank" rel="noreferrer" class="wallet-link">rumble-tipper.vercel.app</a> (or run the site locally for dev).</p>
         </div>
 
-        <div class="section">
-          <h2>Quick settings</h2>
-          <p>Testing setup for wallet + network.</p>
+        <div class="section section-tight">
+          <h2>Quick limits</h2>
+          <p>Display only — server uses <code>RUMBLETIPPER_MAX_PER_TIP_ETH</code>.</p>
         </div>
         <form class="settings-form">
           <label class="field">
-            <span>Max daily spend (USDt)</span>
-            <input type="number" value="75" min="1" />
+            <span>Max daily spend (ETH, note)</span>
+            <input type="text" value="0.05" readonly class="input-readonly" />
           </label>
           <label class="field">
-            <span>Default network (test)</span>
-            <select>
-              <option>Base Sepolia</option>
-              <option>Base Mainnet</option>
-            </select>
+            <span>Network</span>
+            <input type="text" value="Base Sepolia (84532)" readonly class="input-readonly" />
           </label>
-          <label class="toggle">
-            <input type="checkbox" checked />
-            <span>Enable auto-tip mode</span>
-          </label>
-          <button type="button" class="save-btn">Save settings</button>
         </form>
       </section>
     </main>

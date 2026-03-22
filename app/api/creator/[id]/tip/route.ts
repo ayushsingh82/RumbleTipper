@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { parseEther } from "viem";
 import { corsHeaders } from "@/lib/cors";
 
 export const runtime = "nodejs";
@@ -7,16 +8,12 @@ export async function OPTIONS() {
   return new Response(null, { status: 204, headers: corsHeaders() });
 }
 
-// USDT has 6 decimals. 1 USD = 1e6 units.
-const USDT_DECIMALS = 1_000_000;
-
-// Default mainnet USDT (Ethereum). Override with WDK_USDT_CONTRACT for testnet.
-const DEFAULT_USDT = "0xdAC17F958D2ee523a2206206994597C13D831ec7";
+const DEFAULT_MAX_ETH = 0.05;
 
 /**
  * POST /api/creator/[id]/tip
- * Body: { amount: number (USD), recipient: string (0x... address) }
- * Sends amount USDT from agent wallet to recipient via WDK.
+ * Body: { amount: number (ETH), recipient: string (0x... address) }
+ * Sends native ETH on the chain configured by WDK_RPC_URL (use Base Sepolia for testing).
  */
 export async function POST(
   request: Request,
@@ -37,10 +34,10 @@ export async function POST(
   const amount = body?.amount;
   const recipient = body?.recipient;
 
-  const maxPerTip = Number(process.env.RUMBLETIPPER_MAX_PER_TIP_USD) || 1000;
-  if (typeof amount !== "number" || amount <= 0 || amount > maxPerTip) {
+  const maxPerTip = Number(process.env.RUMBLETIPPER_MAX_PER_TIP_ETH ?? DEFAULT_MAX_ETH);
+  if (typeof amount !== "number" || amount <= 0 || amount > maxPerTip || !Number.isFinite(amount)) {
     return NextResponse.json(
-      { error: `amount must be a number between 0 and ${maxPerTip}` },
+      { error: `amount must be a finite ETH amount between 0 and ${maxPerTip}` },
       { status: 400, headers: corsHeaders() }
     );
   }
@@ -52,22 +49,33 @@ export async function POST(
     );
   }
 
+  let valueWei: bigint;
   try {
-    const { createWdkEvmFromEnv, transferEvmToken } = await import("@/lib/wdk-evm");
+    valueWei = parseEther(amount.toString());
+  } catch {
+    return NextResponse.json({ error: "Invalid ETH amount" }, { status: 400, headers: corsHeaders() });
+  }
+
+  try {
+    const { createWdkEvmFromEnv, sendEvmTransaction } = await import("@/lib/wdk-evm");
 
     const wdk = createWdkEvmFromEnv();
-    const tokenAddress = process.env.WDK_USDT_CONTRACT ?? DEFAULT_USDT;
-    const amountRaw = BigInt(Math.round(amount * USDT_DECIMALS));
-
-    const result = await transferEvmToken(wdk, {
-      token: tokenAddress,
-      recipient,
-      amount: amountRaw,
+    const result = await sendEvmTransaction(wdk, {
+      to: recipient,
+      value: valueWei,
       accountIndex: 0,
     });
 
     return NextResponse.json(
-      { ok: true, creatorId: id, amount, txHash: result.hash, recipient },
+      {
+        ok: true,
+        creatorId: id,
+        amount,
+        amountEth: amount,
+        token: "ETH",
+        txHash: result.hash,
+        recipient,
+      },
       { headers: corsHeaders() }
     );
   } catch (err) {

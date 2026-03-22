@@ -8,13 +8,14 @@
 import WDK from "@tetherto/wdk";
 import WalletManagerEvm from "@tetherto/wdk-wallet-evm";
 
-const DEFAULT_PROVIDER = "https://eth.drpc.org";
+/** Default RPC — Base Sepolia for hackathon / test tips. Override with WDK_RPC_URL. */
+const DEFAULT_PROVIDER = "https://sepolia.base.org";
 const CHAIN_ID = "ethereum";
 
 export type WdkEvmConfig = {
   /** 12- or 24-word seed phrase. Prefer env WDK_SEED_PHRASE in production. */
   seedPhrase: string;
-  /** RPC URL or EIP-1193 provider. Default: https://eth.drpc.org */
+  /** RPC URL or EIP-1193 provider. Default: Base Sepolia public RPC */
   provider?: string;
   /** Max fee in wei for transfers (optional). */
   transferMaxFee?: bigint | number;
@@ -35,7 +36,7 @@ export function createWdkEvm(config: WdkEvmConfig) {
 
 /**
  * Creates WDK EVM from environment.
- * Expects: WDK_SEED_PHRASE, optional WDK_RPC_URL, optional WDK_TRANSFER_MAX_FEE (wei string).
+ * Expects: WDK_SEED_PHRASE, optional WDK_RPC_URL (e.g. Base Sepolia: https://sepolia.base.org), optional WDK_TRANSFER_MAX_FEE (wei string).
  */
 export function createWdkEvmFromEnv() {
   const seedPhrase = process.env.WDK_SEED_PHRASE;

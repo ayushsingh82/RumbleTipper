@@ -6,6 +6,7 @@
 export type AlphaResponse = {
   creatorId: string;
   alphaScore: number;
+  /** Suggested tip amount in ETH (Base Sepolia demo). */
   suggestedTip: number;
   metrics: { views: number; engagement: number };
   network: string;
@@ -15,7 +16,7 @@ export type AlphaResponse = {
 export function getAlphaScore(creatorId: string): AlphaResponse {
   const hash = creatorId.split("").reduce((acc, c) => acc + c.charCodeAt(0), 0);
   const alphaScore = 0.5 + (hash % 50) / 100; // 0.50–0.99
-  const suggestedTip = [1, 2, 5, 10][hash % 4];
+  const suggestedTip = [0.0005, 0.001, 0.002, 0.005][hash % 4];
   const views = 5000 + (hash % 20000);
   const engagement = 0.02 + (hash % 30) / 1000;
 
@@ -27,7 +28,7 @@ export function getAlphaScore(creatorId: string): AlphaResponse {
       views,
       engagement: Math.round(engagement * 100) / 100,
     },
-    network: "Ethereum",
-    token: "USD₮",
+    network: "Base Sepolia",
+    token: "ETH",
   };
 }

@@ -13,6 +13,7 @@ const CHAIN_NAMES: Record<number, string> = {
   56: "BNB Chain",
   43114: "Avalanche C-Chain",
   8453: "Base",
+  84532: "Base Sepolia",
   324: "zkSync Era",
   204: "opBNB",
 };
@@ -50,7 +51,7 @@ export async function GET() {
     } = await import("@/lib/wdk-evm");
 
     const wdk = createWdkEvmFromEnv();
-    const rpcUrl = process.env.WDK_RPC_URL ?? "https://eth.drpc.org";
+    const rpcUrl = process.env.WDK_RPC_URL ?? "https://sepolia.base.org";
 
     const [address, balanceWei, chainInfo] = await Promise.all([
       getEvmAddress(wdk, 0),

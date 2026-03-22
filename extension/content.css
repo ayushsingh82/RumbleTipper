@@ -1,3 +1,4 @@
+.rumbletipper-wdk-overlay,
 .rumbletip-overlay {
   position: fixed;
   left: 0;
@@ -8,6 +9,7 @@
   z-index: 2147483647;
 }
 
+.rumbletipper-wdk-overlay .rumbletip-card,
 .rumbletip-overlay .rumbletip-card {
   position: absolute;
   pointer-events: auto;
@@ -22,6 +24,7 @@
   border: 1px solid #333;
 }
 
+.rumbletipper-wdk-overlay.rumbletip-visible .rumbletip-card,
 .rumbletip-overlay.rumbletip-visible .rumbletip-card {
   animation: rumbletip-in 0.15s ease;
 }
