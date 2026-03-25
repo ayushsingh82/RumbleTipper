@@ -75,7 +75,7 @@
       <section id="auto" class="view">
         <div class="section section-tight">
           <h2>Auto tip rules</h2>
-          <p>When you’ve watched long enough on a video, the overlay can pre-fill this ETH amount. Full auto-send still uses “Tip via Agent” so you confirm the recipient.</p>
+          <p>When you’ve watched long enough on a video, the overlay can pre-fill amount + token. Full auto-send still uses “Tip via Agent” so you confirm the recipient.</p>
         </div>
 
         <form id="autoRulesForm" class="settings-form">
@@ -85,8 +85,17 @@
           </label>
 
           <label class="field">
-            <span>Tip amount when rule fires (ETH)</span>
+            <span>Tip amount when rule fires</span>
             <input type="number" id="autoTipAmountEth" min="0.0001" max="1" step="0.0001" value="0.001" />
+          </label>
+
+          <label class="field">
+            <span>Token</span>
+            <select id="autoTipToken">
+              <option value="ETH">ETH (native)</option>
+              <option value="USDT">USDT</option>
+              <option value="USD₮">USD₮ (Tether)</option>
+            </select>
           </label>
 
           <label class="field">

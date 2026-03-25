@@ -1,16 +1,19 @@
 /**
  * Rumble Tipper — content script on rumble.com
- * Hover overlay: local Alpha only (no network). Tip uses POST to API_BASE.
+ * Hover overlay: local Alpha only (no network). Tip uses POST to selected API base.
  */
 
 (function () {
-  /** Tip API — same host as the Rumble Tipper web app (override for local dev). */
-  const API_BASE = "https://rumble-tipper.vercel.app";
+  /** Tip API host selected from popup connection state (defaults localhost). */
+  const FIXED_RECIPIENT = "0xB822B51A88E8a03fCe0220B15Cb2C662E42Adec1";
 
   /** Must match keys in popup.js (chrome.storage.local). */
   const STORAGE_KEYS = {
+    apiBase: "rumbletip_api_base",
+    latestTip: "rumbletip_latest_tip",
     autoTipEnabled: "rumbletip_auto_enabled",
     autoTipAmountEth: "rumbletip_auto_amount_eth",
+    autoTipToken: "rumbletip_auto_token",
     minWatchMinutes: "rumbletip_min_watch_min",
     minAlphaScore: "rumbletip_min_alpha",
   };
@@ -89,9 +92,16 @@
           <div class="rumbletip-score"></div>
           <div class="rumbletip-metrics"></div>
           <div class="rumbletip-suggested"></div>
+          <div class="rumbletip-recipient-fixed" style="margin-top:4px; font-size:11px; color:#a3a3a3">
+            Recipient: ${FIXED_RECIPIENT.slice(0, 8)}...${FIXED_RECIPIENT.slice(-6)}
+          </div>
           <div class="rumbletip-form" style="margin-top:8px">
             <input type="number" class="rumbletip-amount" placeholder="Amount (ETH)" min="0.000000000000000001" max="1" step="0.0001" />
-            <input type="text" class="rumbletip-recipient" placeholder="Recipient 0x…" />
+            <select class="rumbletip-token" aria-label="Token">
+              <option value="ETH">ETH (native)</option>
+              <option value="USDT">USDT</option>
+              <option value="USD₮">USD₮ (Tether)</option>
+            </select>
             <button type="button" class="rumbletip-btn">Tip via Agent</button>
           </div>
           <div class="rumbletip-result" style="display:none; margin-top:6px; font-size:11px"></div>
@@ -103,19 +113,24 @@
     return div;
   }
 
-  function wireTipButton(btn, creatorId, amountInput, recipientInput, resultEl) {
+  function getApiBase(callback) {
+    if (typeof chrome === "undefined" || !chrome.storage || !chrome.storage.local) {
+      callback("http://localhost:3000");
+      return;
+    }
+    chrome.storage.local.get({ [STORAGE_KEYS.apiBase]: "http://localhost:3000" }, function (r) {
+      callback(r[STORAGE_KEYS.apiBase] || "http://localhost:3000");
+    });
+  }
+
+  function wireTipButton(btn, creatorId, amountInput, tokenSelect, resultEl) {
     btn.onclick = function () {
       const amount = parseFloat(amountInput.value);
-      const recipient = recipientInput.value.trim();
+      const tokenRaw = (tokenSelect && tokenSelect.value) || "ETH";
+      const token = tokenRaw === "USD₮" ? "USDT" : tokenRaw;
       if (!amount || amount <= 0 || !Number.isFinite(amount)) {
         resultEl.style.display = "block";
         resultEl.textContent = "Enter a valid ETH amount.";
-        resultEl.style.color = "#c00";
-        return;
-      }
-      if (!recipient || !recipient.startsWith("0x") || recipient.length !== 42) {
-        resultEl.style.display = "block";
-        resultEl.textContent = "Enter a valid 0x recipient address.";
         resultEl.style.color = "#c00";
         return;
       }
@@ -124,28 +139,48 @@
       resultEl.style.color = "";
       resultEl.style.display = "block";
 
-      fetch(`${API_BASE}/api/creator/${encodeURIComponent(creatorId)}/tip`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ amount, recipient }),
-      })
-        .then((r) => r.json())
-        .then((res) => {
-          if (res.ok) {
-            resultEl.textContent = `Sent ${res.amount} ETH (Base Sepolia) ✅ Tx: ${(res.txHash || "").slice(0, 10)}…`;
-            resultEl.style.color = "#0a0";
-          } else {
-            resultEl.textContent = "Error: " + (res.error || "Tip failed");
+      getApiBase(function (apiBase) {
+        fetch(`${apiBase}/api/creator/${encodeURIComponent(creatorId)}/tip`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ amount, token, recipient: FIXED_RECIPIENT }),
+        })
+          .then((r) => r.json())
+          .then((res) => {
+            if (res.ok) {
+              const usedToken = res.token || tokenRaw;
+              const txHash = res.txHash || "";
+              const explorerUrl = txHash ? `https://sepolia.basescan.org/tx/${txHash}` : "";
+              if (explorerUrl) {
+                resultEl.innerHTML = `Sent ${res.amount} ${usedToken} ✅ <a href="${explorerUrl}" target="_blank" rel="noreferrer" style="color:#22c55e;text-decoration:underline">View tx</a>`;
+              } else {
+                resultEl.textContent = `Sent ${res.amount} ${usedToken} ✅`;
+              }
+              resultEl.style.color = "#0a0";
+              if (typeof chrome !== "undefined" && chrome.storage && chrome.storage.local) {
+                chrome.storage.local.set({
+                  [STORAGE_KEYS.latestTip]: {
+                    amount: res.amount,
+                    token: usedToken,
+                    txHash: txHash,
+                    apiBase: apiBase,
+                    timestamp: Date.now(),
+                  },
+                });
+              }
+            } else {
+              resultEl.textContent = "Error: " + (res.error || "Tip failed");
+              resultEl.style.color = "#c00";
+            }
+          })
+          .catch(() => {
+            resultEl.textContent = "Can't reach tip API. Try again or check the site.";
             resultEl.style.color = "#c00";
-          }
-        })
-        .catch(() => {
-          resultEl.textContent = "Can't reach tip API. Try again or check the site.";
-          resultEl.style.color = "#c00";
-        })
-        .finally(() => {
-          btn.disabled = false;
-        });
+          })
+          .finally(() => {
+            btn.disabled = false;
+          });
+      });
     };
   }
 
@@ -157,7 +192,7 @@
     metricsEl,
     suggestedEl,
     amountInput,
-    recipientInput,
+    tokenSelect,
     resultEl,
     btn
   ) {
@@ -182,15 +217,15 @@
         (data.network || "Base Sepolia");
 
       const suggested = data.suggestedTip != null ? data.suggestedTip : 0.001;
-      const tok = data.token || "ETH";
+      const tok = data.token || ((tokenSelect && tokenSelect.value) || "ETH");
       suggestedEl.textContent = "Suggested tip: " + suggested + " " + tok;
 
       amountInput.value = suggested;
       amountInput.dataset.creatorId = creatorId;
 
-      wireTipButton(btn, creatorId, amountInput, recipientInput, resultEl);
+      wireTipButton(btn, creatorId, amountInput, tokenSelect, resultEl);
 
-      applyAutoRules(amountInput, suggestedEl, data);
+      applyAutoRules(amountInput, tokenSelect, suggestedEl, data);
     } catch (_err) {
       scoreEl.textContent = "";
       scoreEl.style.display = "none";
@@ -199,16 +234,17 @@
       suggestedEl.textContent = "Suggested tip: 0.001 ETH";
       amountInput.value = "0.001";
       amountInput.dataset.creatorId = creatorId;
-      wireTipButton(btn, creatorId, amountInput, recipientInput, resultEl);
+      wireTipButton(btn, creatorId, amountInput, tokenSelect, resultEl);
     }
   }
 
-  function applyAutoRules(amountInput, suggestedEl, alphaData) {
+  function applyAutoRules(amountInput, tokenSelect, suggestedEl, alphaData) {
     if (typeof chrome === "undefined" || !chrome.storage || !chrome.storage.local) return;
     chrome.storage.local.get(
       {
         [STORAGE_KEYS.autoTipEnabled]: false,
         [STORAGE_KEYS.autoTipAmountEth]: 0.001,
+        [STORAGE_KEYS.autoTipToken]: "ETH",
         [STORAGE_KEYS.minWatchMinutes]: 3,
         [STORAGE_KEYS.minAlphaScore]: 0,
       },
@@ -217,10 +253,12 @@
         var minMin = Number(r[STORAGE_KEYS.minWatchMinutes]) || 0;
         var minAlpha = Number(r[STORAGE_KEYS.minAlphaScore]) || 0;
         var amt = parseFloat(r[STORAGE_KEYS.autoTipAmountEth]);
+        var tok = String(r[STORAGE_KEYS.autoTipToken] || "ETH");
         if (!amt || amt <= 0 || !Number.isFinite(amt)) return;
         if (sessionWatchSec < minMin * 60) return;
         if (minAlpha > 0 && (alphaData.alphaScore || 0) < minAlpha) return;
         amountInput.value = String(amt);
+        if (tokenSelect) tokenSelect.value = tok;
         var base = suggestedEl.textContent || "";
         suggestedEl.textContent = base.indexOf("Auto rule") >= 0 ? base : base + " · Auto rule (watch ≥ " + minMin + "m)";
       }
@@ -239,7 +277,7 @@
     const metricsEl = overlay.querySelector(".rumbletip-metrics");
     const suggestedEl = overlay.querySelector(".rumbletip-suggested");
     const amountInput = overlay.querySelector(".rumbletip-amount");
-    const recipientInput = overlay.querySelector(".rumbletip-recipient");
+    const tokenSelect = overlay.querySelector(".rumbletip-token");
     const resultEl = overlay.querySelector(".rumbletip-result");
     const btn = overlay.querySelector(".rumbletip-btn");
 
@@ -261,7 +299,7 @@
 
     try {
       var local = localAlphaFromCreatorId(creatorId);
-      applyAlphaToOverlay(local, creatorId, content, scoreEl, metricsEl, suggestedEl, amountInput, recipientInput, resultEl, btn);
+      applyAlphaToOverlay(local, creatorId, content, scoreEl, metricsEl, suggestedEl, amountInput, tokenSelect, resultEl, btn);
     } catch (_e) {
       content.style.display = "block";
       scoreEl.textContent = "";
@@ -271,7 +309,7 @@
       suggestedEl.textContent = "Suggested tip: 0.001 ETH";
       amountInput.value = "0.001";
       amountInput.dataset.creatorId = creatorId;
-      wireTipButton(btn, creatorId, amountInput, recipientInput, resultEl);
+      wireTipButton(btn, creatorId, amountInput, tokenSelect, resultEl);
     }
   }
 

@@ -1,4 +1,7 @@
 import { NextResponse } from "next/server";
+import { createPublicClient, formatEther, http } from "viem";
+import { mnemonicToAccount } from "viem/accounts";
+import { corsHeaders } from "@/lib/cors";
 
 const WEI_PER_ETH = BigInt(10) ** BigInt(18);
 
@@ -39,10 +42,15 @@ async function getChainIdAndName(rpcUrl: string): Promise<{ chainId: number; net
 export const runtime = "nodejs";
 
 function jsonError(message: string) {
-  return NextResponse.json({ connected: false, error: message }, { status: 200 });
+  return NextResponse.json({ connected: false, error: message }, { status: 200, headers: corsHeaders() });
+}
+
+export async function OPTIONS() {
+  return new Response(null, { status: 204, headers: corsHeaders() });
 }
 
 export async function GET() {
+  const rpcUrl = process.env.WDK_RPC_URL ?? "https://sepolia.base.org";
   try {
     const {
       createWdkEvmFromEnv,
@@ -51,7 +59,6 @@ export async function GET() {
     } = await import("@/lib/wdk-evm");
 
     const wdk = createWdkEvmFromEnv();
-    const rpcUrl = process.env.WDK_RPC_URL ?? "https://sepolia.base.org";
 
     const [address, balanceWei, chainInfo] = await Promise.all([
       getEvmAddress(wdk, 0),
@@ -60,26 +67,57 @@ export async function GET() {
     ]);
 
     const balanceEth = Number((balanceWei * BigInt(10000)) / WEI_PER_ETH) / 10000;
-    return NextResponse.json({
-      connected: true,
-      address,
-      balanceWei: balanceWei.toString(),
-      balanceEth,
-      network: chainInfo.network,
-      chainId: chainInfo.chainId,
-    });
+    return NextResponse.json(
+      {
+        connected: true,
+        address,
+        balanceWei: balanceWei.toString(),
+        balanceEth,
+        network: chainInfo.network,
+        chainId: chainInfo.chainId,
+      },
+      { headers: corsHeaders() }
+    );
   } catch (err) {
-    let message = err instanceof Error ? err.message : "Wallet not configured";
     const full = err instanceof Error ? `${err.message} ${err.stack ?? ""} ${err.cause ? String(err.cause) : ""}` : String(err);
-    // Suggest fix for native addon (sodium-native) load failure
-    if (
+    const sodiumFailure =
       full.includes("sodium-native") ||
       full.includes("Cannot find addon") ||
-      full.includes("binding.js")
-    ) {
-      message =
-        "Native crypto module failed to load. Run: npm rebuild sodium-native. Then restart the dev server.";
+      full.includes("binding.js");
+
+    // Fallback path for environments where native addon loading fails.
+    if (sodiumFailure) {
+      try {
+        const seedPhrase = process.env.WDK_SEED_PHRASE;
+        if (!seedPhrase) {
+          return jsonError("WDK_SEED_PHRASE is required");
+        }
+        const account = mnemonicToAccount(seedPhrase);
+        const client = createPublicClient({ transport: http(rpcUrl) });
+        const [balanceWei, chainInfo] = await Promise.all([
+          client.getBalance({ address: account.address }),
+          getChainIdAndName(rpcUrl),
+        ]);
+        const balanceEth = Number(formatEther(balanceWei));
+        return NextResponse.json(
+          {
+            connected: true,
+            address: account.address,
+            balanceWei: balanceWei.toString(),
+            balanceEth,
+            network: chainInfo.network,
+            chainId: chainInfo.chainId,
+            fallback: "viem",
+          },
+          { headers: corsHeaders() }
+        );
+      } catch (fallbackErr) {
+        const message = fallbackErr instanceof Error ? fallbackErr.message : "Wallet fallback failed";
+        return jsonError(message);
+      }
     }
+
+    const message = err instanceof Error ? err.message : "Wallet not configured";
     return jsonError(message);
   }
 }

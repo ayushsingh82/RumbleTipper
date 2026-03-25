@@ -6,7 +6,7 @@ Runs on **rumble.com**. No Rumble API — we **read the page DOM** for creator/v
 
 - **Toolbar** — Rumble Tipper icon; popup title **Rumble Tipper** with subtitle *On Rumble · Base Sepolia*.
 - **Hover overlay** — **Alpha** from **deterministic mock** (same formula as `lib/creator-score.ts` / creator id — no alpha `fetch` on hover). ETH + **Tip via Agent** → `POST` when you click (default **`https://rumble-tipper.vercel.app`**). DOM id `rumbletipper-wdk-overlay` to avoid clashing with other extensions.
-- **Popup** — Overview (hero-style), **Auto tip** rules (`chrome.storage`), Activity, **Wallet** (`GET /api/wallet` — Base Sepolia when RPC is `https://sepolia.base.org`).
+- **Popup** — Overview (hero-style), **Auto tip** rules (`chrome.storage`: amount, watch minutes, alpha threshold, token ETH/USDT/USD₮), Activity, **Wallet** (`GET /api/wallet` — Base Sepolia when RPC is `https://sepolia.base.org`).
 - **Buttons** — **Landing page** opens the Vercel URL; **Make wallet** opens `/creator/register` on the same host.
 
 ## How we read info
